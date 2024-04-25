@@ -41,32 +41,28 @@ def p_Atrib(p):
         p[0] = ''
 
 def p_Exp1(p):
-    """Exp : Termo"""
+    """Exp : Fator"""
     p[0] = p[1]
 
 def p_Exp2(p): 
-    """Exp : Exp '+' Termo"""
-    p[0] = p[1]+p[3]+'add\n'
+    """Exp : Exp Fator '+'"""
+    p[0] = p[1]+p[2]+'add\n'
 
 def p_Exp3(p): 
-    """Exp : Exp '-' Termo"""
-    p[0] = p[1]+p[3]+'sub\n'
+    """Exp : Exp Fator '-'"""
+    p[0] = p[1]+p[2]+'sub\n'
 
-def p_Termo(p):
-    """Termo : Fator"""
-    p[0] = p[1]
+def p_Exp4(p): 
+    """Exp : Exp Fator '*'"""
+    p[0] = p[1]+p[2]+'mul\n'
 
-def p_Termo2(p): 
-    """Termo : Termo '*' Fator"""
-    p[0] = p[1]+p[3]+'mul\n'
+def p_Exp5(p): 
+    """Exp : Exp Fator '/'"""
+    p[0] = p[1]+p[2]+'div\n'
 
-def p_Termo3(p): 
-    """Termo : Termo '/' Fator"""
-    p[0] = p[1]+p[3]+'div\n'
-
-def p_Termo4(p): 
-    """Termo : Termo MOD Fator"""
-    p[0] = p[1]+p[3]+'mod\n'
+def p_Exp6(p): 
+    """Exp : Exp Fator MOD"""
+    p[0] = p[1]+p[2]+'mod\n'
 
 def p_Fator(p):
     """Fator : NUM"""

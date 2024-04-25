@@ -3,15 +3,22 @@ import ply.lex as lex
 tokens = (
     'NUM',
     'VAR',
-    'MOD'
+    'MOD',
+    'VARIABLE'
 )
 
-literals= ['=','/','*','+','-']
-
-t_MOD = r'(?i)mod'
+literals= ['/','*','+','-','!']
 
 def t_NUM(t):
     r'\d+'
+    return t
+
+def t_MOD(t):
+    r'(?i)mod'
+    return t
+
+def t_VARIABLE(t):
+    r'(?i)variable'
     return t
 
 def t_VAR(t):

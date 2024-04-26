@@ -2,8 +2,16 @@ import ply.lex as lex
 
 tokens = (
     'NUM',
-    'VAR',
     'MOD',
+    'GREATEREQUAL',
+    'GREATER',
+    'LESSEQUAL',
+    'LESS',
+    'EQUAL',
+    'NOTEQUAL',
+    'AND',
+    'OR',
+    'VAR',
     'VARIABLE'
 )
 
@@ -17,12 +25,44 @@ def t_MOD(t):
     r'(?i)mod'
     return t
 
+def t_GREATEREQUAL(t):
+    r'>='
+    return t
+
+def t_GREATER(t):
+    r'>'
+    return t
+
+def t_LESSEQUAL(t):
+    r'<='
+    return t
+
+def t_LESS(t):
+    r'<'
+    return t
+
+def t_EQUAL(t):
+    r'='
+    return t
+
+def t_NOTEQUAL(t):
+    r'<>'
+    return t
+
+def t_AND(t):
+    r'(?i)and'
+    return t
+
+def t_OR(t):
+    r'(?i)or'
+    return t
+
 def t_VARIABLE(t):
     r'(?i)variable'
     return t
 
 def t_VAR(t):
-    r'[a-zA-Z]+'
+    r'[a-zA-Z]\w*'
     return t
 
 t_ignore = ' \t\n' #ignora espaços, tabs e paragrafos

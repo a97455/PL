@@ -10,14 +10,18 @@ def p_Prog(p):
     p[0] += 'stop\n'
 
 def p_Frase1(p):
-    """Frase : Frase Atrib"""
-    p[0] = p[1]+p[2]
-
-def p_Frase2(p):
     """Frase : Frase Decl"""
     p[0] = p[1]+p[2]
 
+def p_Frase2(p):
+    """Frase : Frase Atrib"""
+    p[0] = p[1]+p[2]
+
 def p_Frase3(p):
+    """Frase : Frase Exp"""
+    p[0] = p[1]+p[2]
+
+def p_Frase4(p):
     """Frase : """
     p[0] = ''
 

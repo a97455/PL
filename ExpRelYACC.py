@@ -49,24 +49,48 @@ def p_Exp1(p):
     p[0] = p[1]
 
 def p_Exp2(p): 
-    """Exp : Exp Fator '+'"""
+    """Exp : Exp Exp '+'"""
     p[0] = p[1]+p[2]+'add\n'
 
 def p_Exp3(p): 
-    """Exp : Exp Fator '-'"""
+    """Exp : Exp Exp '-'"""
     p[0] = p[1]+p[2]+'sub\n'
 
 def p_Exp4(p): 
-    """Exp : Exp Fator '*'"""
+    """Exp : Exp Exp '*'"""
     p[0] = p[1]+p[2]+'mul\n'
 
 def p_Exp5(p): 
-    """Exp : Exp Fator '/'"""
+    """Exp : Exp Exp '/'"""
     p[0] = p[1]+p[2]+'div\n'
 
 def p_Exp6(p): 
-    """Exp : Exp Fator MOD"""
+    """Exp : Exp Exp MOD"""
     p[0] = p[1]+p[2]+'mod\n'
+
+def p_Exp7(p): 
+    """Exp : Exp Exp GREATEREQUAL"""
+    p[0] = p[1]+p[2]+'supeq\n'
+
+def p_Exp8(p): 
+    """Exp : Exp Exp GREATER"""
+    p[0] = p[1]+p[2]+'sup\n'
+
+def p_Exp9(p): 
+    """Exp : Exp Exp LESSEQUAL"""
+    p[0] = p[1]+p[2]+'infeq\n'
+
+def p_Exp10(p): 
+    """Exp : Exp Exp LESS"""
+    p[0] = p[1]+p[2]+'inf\n'
+
+def p_Exp11(p): 
+    """Exp : Exp Exp EQUAL"""
+    p[0] = p[1]+p[2]+'equal\n'
+
+def p_Exp12(p): 
+    """Exp : Exp Exp NOTEQUAL"""
+    p[0] = p[1]+p[2]+'equal\n'+'not\n'
 
 def p_Fator(p):
     """Fator : NUM"""

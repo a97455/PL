@@ -3,14 +3,12 @@ import ply.lex as lex
 tokens = (
     'NUM',
     'MOD',
+    'NOTEQUAL',
     'GREATEREQUAL',
     'GREATER',
     'LESSEQUAL',
     'LESS',
     'EQUAL',
-    'NOTEQUAL',
-    'AND',
-    'OR',
     'VAR',
     'VARIABLE'
 )
@@ -23,6 +21,10 @@ def t_NUM(t):
 
 def t_MOD(t):
     r'(?i)mod'
+    return t
+
+def t_NOTEQUAL(t):
+    r'<>'
     return t
 
 def t_GREATEREQUAL(t):
@@ -43,18 +45,6 @@ def t_LESS(t):
 
 def t_EQUAL(t):
     r'='
-    return t
-
-def t_NOTEQUAL(t):
-    r'<>'
-    return t
-
-def t_AND(t):
-    r'(?i)and'
-    return t
-
-def t_OR(t):
-    r'(?i)or'
     return t
 
 def t_VARIABLE(t):

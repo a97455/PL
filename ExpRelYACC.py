@@ -10,20 +10,24 @@ def p_Prog(p):
     p[0] += 'stop\n'
 
 def p_Frase1(p):
-    """Frase : Frase Decl"""
-    p[0] = p[1]+p[2]
+    """Frase : """
+    p[0] = ''
 
 def p_Frase2(p):
-    """Frase : Frase Atrib"""
-    p[0] = p[1]+p[2]
-
-def p_Frase3(p):
     """Frase : Frase Exp"""
     p[0] = p[1]+p[2]
 
+def p_Frase3(p):
+    """Frase : Frase Decl"""
+    p[0] = p[1]+p[2]
+
 def p_Frase4(p):
-    """Frase : """
-    p[0] = ''
+    """Frase : Frase Atrib"""
+    p[0] = p[1]+p[2]
+
+def p_Frase5(p):
+    """Frase : Frase FuncDecl"""
+    p[0] = p[1]+p[2]
 
 def p_Decl(p):
     """Decl : VARIABLE VAR """
@@ -43,6 +47,43 @@ def p_Atrib(p):
         print(f"Erro semântico: Variável {p[2]} não declarada.")
         parser.success = False
         p[0] = ''
+
+def p_FuncDecl(p):
+    """FuncDecl : ':' VAR FuncCont ';'"""
+    if p[2] in parser.tabFunc.keys():
+        print(f"Erro semântico: Função {p[2]} já declarada.")
+        parser.success = False
+    else:
+        parser.tabFunc[p[2]] = p[3]
+        p[0] = ''
+
+def p_FuncCont1(p):
+    """FuncCont : """
+    p[0] = list()
+
+def p_FuncCont2(p):
+    """FuncCont : FuncCont Fator"""
+    p[0] = p[1] + [p[2]]
+
+def p_FuncCont3(p):
+    """FuncCont : FuncCont '+'"""
+    p[0] = p[1] + ['add\n']
+
+def p_FuncCont4(p):
+    """FuncCont : FuncCont '-'"""
+    p[0] = p[1] + ['sub\n']
+
+def p_FuncCont5(p):
+    """FuncCont : FuncCont '*'"""
+    p[0] = p[1] + ['mul\n']
+
+def p_FuncCont6(p):
+    """FuncCont : FuncCont '/'"""
+    p[0] = p[1] + ['div\n']
+
+def p_FuncCont7(p):
+    """FuncCont : FuncCont MOD"""
+    p[0] = p[1] + ['mod\n']
 
 def p_Exp1(p):
     """Exp : Fator"""
@@ -96,15 +137,6 @@ def p_Fator(p):
     """Fator : NUM"""
     p[0] = 'pushi '+p[1]+'\n'
 
-def p_Fator2(p): 
-    """Fator : VAR"""
-    if p[1] in parser.tabVAR.keys():
-        p[0] = 'pushg '+str(parser.tabVAR[p[1]])+'\n'
-    else:
-        print(f"Erro semântico: Variável {p[1]} não declarada.")
-        parser.success = False
-        p[0]=''
-
 def p_error(p):
     print("Erro sintático no input!")
     parser.success = False
@@ -115,6 +147,7 @@ parser = yacc.yacc()
 parser.success = True
 parser.tabVAR = dict() #Espaços de memória reservados para as diversas variáveis
 parser.nextAdr = 0
+parser.tabFunc = dict() #Tabela com as diversas funções criadas
 
 # Parse da entrada
 fonte = ""

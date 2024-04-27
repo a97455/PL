@@ -9,11 +9,11 @@ tokens = (
     'LESSEQUAL',
     'LESS',
     'EQUAL',
-    'VAR',
-    'VARIABLE'
+    'VARIABLE',
+    'VAR'
 )
 
-literals= ['/','*','+','-','!']
+literals= ['/','*','+','-','!','@',':',';']
 
 def t_NUM(t):
     r'\d+'

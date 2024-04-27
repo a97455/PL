@@ -29,6 +29,10 @@ def p_Frase5(p):
     """Frase : Frase FuncDecl"""
     p[0] = p[1]+p[2]
 
+def p_Frase6(p):
+    """Frase : Frase FuncAtrib"""
+    p[0] = p[1]+p[2]
+
 def p_Decl(p):
     """Decl : VARIABLE VAR """
     if p[2] in parser.tabVAR.keys():
@@ -85,6 +89,17 @@ def p_FuncCont7(p):
     """FuncCont : FuncCont MOD"""
     p[0] = p[1] + ['mod\n']
 
+def p_FuncAtrib(p):
+    """FuncAtrib : Exp Exp VAR"""
+    if p[3] in parser.tabFunc.keys():
+        p[0]=p[1]+p[2]
+        for cont in parser.tabFunc[p[3]]:
+            p[0]+=cont
+    else:
+        print(f"Erro semântico: Função {p[3]} não declarada.")
+        parser.success = False
+        p[0] = ''
+
 def p_Exp1(p):
     """Exp : Fator"""
     p[0] = p[1]
@@ -137,6 +152,15 @@ def p_Fator(p):
     """Fator : NUM"""
     p[0] = 'pushi '+p[1]+'\n'
 
+def p_Fator2(p): 
+    """Fator : VAR '@'"""
+    if p[1] in parser.tabVAR.keys():
+        p[0] = 'pushg '+str(parser.tabVAR[p[1]])+'\n'
+    else:
+        print(f"Erro semântico: Variável {p[1]} não declarada.")
+        parser.success = False
+        p[0]=''
+
 def p_error(p):
     print("Erro sintático no input!")
     parser.success = False
@@ -158,4 +182,4 @@ result = parser.parse(fonte)
 
 # Verifica se o parse foi bem-sucedido e imprime o resultado formatado
 if parser.success:
-    print(result)
+    print('\n'+result)

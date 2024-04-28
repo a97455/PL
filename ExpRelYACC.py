@@ -99,6 +99,30 @@ def p_FuncCont7(p):
     """FuncCont : FuncCont MOD"""
     p[0] = p[1] + ['mod\n']
 
+def p_FuncCont8(p):
+    """FuncCont : FuncCont GREATEREQUAL"""
+    p[0] = p[1] + ['supeq\n']
+
+def p_FuncCont9(p):
+    """FuncCont : FuncCont GREATER"""
+    p[0] = p[1] + ['sup\n']
+
+def p_FuncCont10(p):
+    """FuncCont : FuncCont LESSEQUAL"""
+    p[0] = p[1] + ['infeq\n']
+
+def p_FuncCont11(p):
+    """FuncCont : FuncCont LESS"""
+    p[0] = p[1] + ['inf\n']
+
+def p_FuncCont12(p):
+    """FuncCont : FuncCont EQUAL"""
+    p[0] = p[1] + ['equal\n']
+
+def p_FuncCont13(p):
+    """FuncCont : FuncCont NOTEQUAL"""
+    p[0] = p[1] + ['equal\n'+'not\n']
+
 def p_FuncAtrib(p):
     """FuncAtrib : Fatores VAR"""
     if p[2] in parser.tabFunc.keys():

@@ -58,7 +58,8 @@ def p_FuncDecl(p):
         print(f"Erro semântico: Função {p[2]} já declarada.")
         parser.success = False
     else:
-        parser.tabFunc[p[2]] = p[3]
+        parser.tabFunc[p[2]] = (parser.nextAdr,p[3])
+        parser.nextAdr+=1
         p[0] = ''
 
 def p_FuncCont1(p):
@@ -93,8 +94,9 @@ def p_FuncAtrib(p):
     """FuncAtrib : Exp Exp VAR"""
     if p[3] in parser.tabFunc.keys():
         p[0]=p[1]+p[2]
-        for cont in parser.tabFunc[p[3]]:
+        for cont in parser.tabFunc[p[3]][1]:
             p[0]+=cont
+        p[0]+='storeg '+str(parser.tabFunc[p[3]][0])+'\n'
     else:
         print(f"Erro semântico: Função {p[3]} não declarada.")
         parser.success = False
@@ -169,9 +171,9 @@ def p_error(p):
 # Instância do parser
 parser = yacc.yacc()
 parser.success = True
-parser.tabVAR = dict() #Espaços de memória reservados para as diversas variáveis
+parser.tabVAR = dict() #VarName -> PosStack 
 parser.nextAdr = 0
-parser.tabFunc = dict() #Tabela com as diversas funções criadas
+parser.tabFunc = dict() #FuncName -> (PosStack,[Content])
 
 # Parse da entrada
 fonte = ""

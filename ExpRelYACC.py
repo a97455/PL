@@ -33,6 +33,10 @@ def p_Frase6(p):
     """Frase : Frase FuncAtrib"""
     p[0] = p[1]+p[2]
 
+def p_Frase7(p):
+    """Frase : Frase Ciclo1"""
+    p[0] = p[1]+p[2]
+
 def p_Decl(p):
     """Decl : VARIABLE VAR """
     if p[2] in parser.tabVAR.keys():
@@ -147,7 +151,7 @@ def p_FuncAtrib2(p):
         parser.success = False
         p[0] = ''
 
-def p_FuncAtrib2(p):
+def p_FuncAtrib3(p):
     """FuncAtrib : VAR"""
     if p[1] in parser.tabFunc.keys():
         p[0]=''
@@ -159,6 +163,40 @@ def p_FuncAtrib2(p):
         parser.success = False
         p[0] = ''
 
+def p_Ciclo1(p):
+    """Ciclo1 : Fatores DO Exp LOOP """
+
+    if(p[1].count('\n')==2):
+        argumentos = p[1].split('\n')
+
+        posicao_1 = parser.nextAdr
+        parser.nextAdr+=1
+        posicao_2 = parser.nextAdr
+        parser.nextAdr+=1
+
+        p[0]=''
+        p[0]+=argumentos[0]+'\n'
+        p[0]+='\tstoreg '+str(posicao_1)+'\n'
+        p[0]+=argumentos[1]+'\n'
+        p[0]+='\tpushi 1\n'
+        p[0]+='\tadd\n'
+        p[0]+='\tstoreg '+str(posicao_2)+'\n'
+
+        p[0]+='ciclo'+str(parser.idCiclo)+':\n'
+        p[0]+=p[3]
+
+        p[0]+='\tpushg '+str(posicao_2)+'\n'
+        p[0]+='\tpushi 1\n'
+        p[0]+='\tadd\n'
+        p[0]+='\tstoreg '+str(posicao_2)+'\n'
+
+        p[0]+='\tpushg '+str(posicao_1)+'\n'
+        p[0]+='\tpushg '+str(posicao_2)+'\n'
+        p[0]+='\tinf\n'
+        p[0]+='\tjz ciclo'+str(parser.idCiclo)+'\n'
+        parser.idCiclo+=1
+
+ 
 def p_Exp1(p):
     """Exp : Fatores"""
     p[0] = p[1]
@@ -244,7 +282,7 @@ parser.success = True
 parser.tabVAR = dict() #VarName -> PosStack 
 parser.nextAdr = 0
 parser.tabFunc = dict() #FuncName -> (PosStack,[Content])
-parser.idLabel = 1
+parser.idCiclo = 1
 
 # Parse da entrada
 fonte = ""

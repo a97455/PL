@@ -8,6 +8,12 @@ Em Forth existem diferentes tipos de ciclos. O seguinte exemplo imprime para o t
     i . 
 loop ;
 ~~~
+~~~
+variable a 
+
+20 a !
+a @ 10 do 5 . loop
+~~~
 
 Para o mesmo efeito, recorrendo a outros tipo de ciclo, obtém-se o seguinte código.
 ~~~

@@ -33,6 +33,10 @@ def p_Frase6(p):
     """Frase : Frase FuncAtrib"""
     p[0] = p[1]+p[2]
 
+def p_Frase7(p):
+    """Frase : Frase Ciclo"""
+    p[0] = p[1]+p[2]
+
 def p_Decl(p):
     """Decl : VARIABLE VAR """
     if p[2] in parser.tabVAR.keys():
@@ -146,6 +150,12 @@ def p_FuncAtrib2(p):
         print(f"Erro semântico: Função {p[2]} não declarada.")
         parser.success = False
         p[0] = ''
+
+def p_Ciclo(p):
+    """Ciclo : ':' VAR NUM NUM DO Exp LOOP ';'"""
+    p[0]=''
+    for i in range(int(p[4]),int(p[3])):
+        p[0] += p[6]
 
 def p_Exp1(p):
     """Exp : Fatores"""

@@ -10,13 +10,23 @@ tokens = (
     'LESS',
     'EQUAL',
     'VARIABLE',
-    'VAR'
+    'VAR',
+    'DO',
+    'LOOP'
 )
 
 literals= ['/','*','+','-','!','@',':',';']
 
 def t_NUM(t):
     r'\d+'
+    return t
+
+def t_DO(t):
+    r'(?i)do'
+    return t
+
+def t_LOOP(t):
+    r'(?i)loop'
     return t
 
 def t_MOD(t):

@@ -123,8 +123,20 @@ def p_FuncCont13(p):
     """FuncCont : FuncCont NOTEQUAL"""
     p[0] = p[1] + ['equal\n'+'not\n']
 
-def p_FuncAtrib(p):
+def p_FuncAtrib1(p):
     """FuncAtrib : Fatores VAR"""
+    if p[2] in parser.tabFunc.keys():
+        p[0]=p[1]
+        for cont in parser.tabFunc[p[2]][1]:
+            p[0]+=cont
+        p[0]+='storeg '+str(parser.tabFunc[p[2]][0])+'\n'
+    else:
+        print(f"Erro semântico: Função {p[2]} não declarada.")
+        parser.success = False
+        p[0] = ''
+
+def p_FuncAtrib2(p):
+    """FuncAtrib : Exp VAR"""
     if p[2] in parser.tabFunc.keys():
         p[0]=p[1]
         for cont in parser.tabFunc[p[2]][1]:

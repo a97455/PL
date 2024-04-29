@@ -33,14 +33,6 @@ def p_Frase6(p):
     """Frase : Frase FuncAtrib"""
     p[0] = p[1]+p[2]
 
-def p_Frase7(p):
-    """Frase : Frase Ciclo1"""
-    p[0] = p[1]+p[2]
-
-def p_Frase8(p):
-    """Frase : Frase Ciclo2"""
-    p[0] = p[1]+p[2]
-
 def p_Decl(p):
     """Decl : VARIABLE VAR """
     if p[2] in parser.tabVAR.keys():
@@ -89,47 +81,47 @@ def p_FuncCont2(p):
 
 def p_FuncCont3(p):
     """FuncCont : FuncCont '+'"""
-    p[0] = p[1] + ['add\n']
+    p[0] = p[1] + ['\tadd\n']
 
 def p_FuncCont4(p):
     """FuncCont : FuncCont '-'"""
-    p[0] = p[1] + ['sub\n']
+    p[0] = p[1] + ['\tsub\n']
 
 def p_FuncCont5(p):
     """FuncCont : FuncCont '*'"""
-    p[0] = p[1] + ['mul\n']
+    p[0] = p[1] + ['\tmul\n']
 
 def p_FuncCont6(p):
     """FuncCont : FuncCont '/'"""
-    p[0] = p[1] + ['div\n']
+    p[0] = p[1] + ['\tdiv\n']
 
 def p_FuncCont7(p):
     """FuncCont : FuncCont MOD"""
-    p[0] = p[1] + ['mod\n']
+    p[0] = p[1] + ['\tmod\n']
 
 def p_FuncCont8(p):
     """FuncCont : FuncCont GREATEREQUAL"""
-    p[0] = p[1] + ['supeq\n']
+    p[0] = p[1] + ['\tsupeq\n']
 
 def p_FuncCont9(p):
     """FuncCont : FuncCont GREATER"""
-    p[0] = p[1] + ['sup\n']
+    p[0] = p[1] + ['\tsup\n']
 
 def p_FuncCont10(p):
     """FuncCont : FuncCont LESSEQUAL"""
-    p[0] = p[1] + ['infeq\n']
+    p[0] = p[1] + ['\tinfeq\n']
 
 def p_FuncCont11(p):
     """FuncCont : FuncCont LESS"""
-    p[0] = p[1] + ['inf\n']
+    p[0] = p[1] + ['\tinf\n']
 
 def p_FuncCont12(p):
     """FuncCont : FuncCont EQUAL"""
-    p[0] = p[1] + ['equal\n']
+    p[0] = p[1] + ['\tequal\n']
 
 def p_FuncCont13(p):
     """FuncCont : FuncCont NOTEQUAL"""
-    p[0] = p[1] + ['equal\n'+'not\n']
+    p[0] = p[1] + ['\tequal\n'+'\tnot\n']
 
 def p_FuncAtrib1(p):
     """FuncAtrib : Fatores VAR"""
@@ -155,16 +147,17 @@ def p_FuncAtrib2(p):
         parser.success = False
         p[0] = ''
 
-def p_Ciclo1(p):
-    """Ciclo1 : NUM NUM DO Exp LOOP """
-
-    p[0]=''
-    for i in range(int(p[2]),int(p[1])):
-        p[0] += p[4]
-
-def p_Ciclo2(p):
-    """Ciclo2 : Fatores BEGIN Exp UNTIL"""
-    p[0]= p[1] + ":label\n" + p[3] + '\tjz label\n'
+def p_FuncAtrib2(p):
+    """FuncAtrib : VAR"""
+    if p[1] in parser.tabFunc.keys():
+        p[0]=''
+        for cont in parser.tabFunc[p[1]][1]:
+            p[0]+=cont
+        p[0]+='\tstoreg '+str(parser.tabFunc[p[1]][0])+'\n'
+    else:
+        print(f"Erro semântico: Função {p[1]} não declarada.")
+        parser.success = False
+        p[0] = ''
 
 def p_Exp1(p):
     """Exp : Fatores"""

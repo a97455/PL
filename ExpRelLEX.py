@@ -3,6 +3,7 @@ import ply.lex as lex
 tokens = (
     'NUM',
     'MOD',
+    'DUP',
     'NOTEQUAL',
     'GREATEREQUAL',
     'GREATER',
@@ -12,7 +13,9 @@ tokens = (
     'VARIABLE',
     'VAR',
     'DO',
-    'LOOP'
+    'LOOP',
+    'BEGIN',
+    'UNTIL'
 )
 
 literals= ['/','*','+','-','!','@',':',';']
@@ -29,8 +32,20 @@ def t_LOOP(t):
     r'(?i)loop'
     return t
 
+def t_BEGIN(t):
+    r'(?i)begin'
+    return t
+
+def t_UNTIL(t):
+    r'(?i)until'
+    return t
+
 def t_MOD(t):
     r'(?i)mod'
+    return t
+
+def t_DUP(t):
+    r'(?i)dup'
     return t
 
 def t_NOTEQUAL(t):

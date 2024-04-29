@@ -4,7 +4,7 @@ from ExpRelLEX import tokens
 
 def p_Prog(p):
     """Prog : Frase"""
-    p[0] = 'pushn '+str(parser.nextAdr)+'\n'
+    p[0] = '\tpushn '+str(parser.nextAdr)+'\n'
     p[0] += 'start\n'
     p[0] += p[1]
     p[0] += 'stop\n'
@@ -34,7 +34,11 @@ def p_Frase6(p):
     p[0] = p[1]+p[2]
 
 def p_Frase7(p):
-    """Frase : Frase Ciclo"""
+    """Frase : Frase Ciclo1"""
+    p[0] = p[1]+p[2]
+
+def p_Frase8(p):
+    """Frase : Frase Ciclo2"""
     p[0] = p[1]+p[2]
 
 def p_Decl(p):
@@ -50,7 +54,7 @@ def p_Decl(p):
 def p_Atrib1(p):
     """Atrib : Fatores VAR '!'"""
     if p[2] in parser.tabVAR.keys():
-        p[0] = p[1]+'storeg '+str(parser.tabVAR[p[2]])+'\n'
+        p[0] = p[1]+'\tstoreg '+str(parser.tabVAR[p[2]])+'\n'
     else:
         print(f"Erro semântico: Variável {p[2]} não declarada.")
         parser.success = False
@@ -59,7 +63,7 @@ def p_Atrib1(p):
 def p_Atrib2(p):
     """Atrib : Exp VAR '!'"""
     if p[2] in parser.tabVAR.keys():
-        p[0] = p[1]+'storeg '+str(parser.tabVAR[p[2]])+'\n'
+        p[0] = p[1]+'\tstoreg '+str(parser.tabVAR[p[2]])+'\n'
     else:
         print(f"Erro semântico: Variável {p[2]} não declarada.")
         parser.success = False
@@ -133,7 +137,7 @@ def p_FuncAtrib1(p):
         p[0]=p[1]
         for cont in parser.tabFunc[p[2]][1]:
             p[0]+=cont
-        p[0]+='storeg '+str(parser.tabFunc[p[2]][0])+'\n'
+        p[0]+='\tstoreg '+str(parser.tabFunc[p[2]][0])+'\n'
     else:
         print(f"Erro semântico: Função {p[2]} não declarada.")
         parser.success = False
@@ -145,18 +149,22 @@ def p_FuncAtrib2(p):
         p[0]=p[1]
         for cont in parser.tabFunc[p[2]][1]:
             p[0]+=cont
-        p[0]+='storeg '+str(parser.tabFunc[p[2]][0])+'\n'
+        p[0]+='\tstoreg '+str(parser.tabFunc[p[2]][0])+'\n'
     else:
         print(f"Erro semântico: Função {p[2]} não declarada.")
         parser.success = False
         p[0] = ''
 
-def p_Ciclo(p):
-    """Ciclo : NUM NUM DO Exp LOOP """
+def p_Ciclo1(p):
+    """Ciclo1 : NUM NUM DO Exp LOOP """
 
     p[0]=''
     for i in range(int(p[2]),int(p[1])):
         p[0] += p[4]
+
+def p_Ciclo2(p):
+    """Ciclo2 : Fatores BEGIN Exp UNTIL"""
+    p[0]= p[1] + ":label\n" + p[3] + '\tjz label\n'
 
 def p_Exp1(p):
     """Exp : Fatores"""
@@ -164,47 +172,51 @@ def p_Exp1(p):
 
 def p_Exp2(p): 
     """Exp : Exp '+'"""
-    p[0] = p[1]+'add\n'
+    p[0] = p[1]+'\tadd\n'
 
 def p_Exp3(p): 
     """Exp : Exp '-'"""
-    p[0] = p[1]+'sub\n'
+    p[0] = p[1]+'\tsub\n'
 
 def p_Exp4(p): 
     """Exp : Exp '*'"""
-    p[0] = p[1]+'mul\n'
+    p[0] = p[1]+'\tmul\n'
 
 def p_Exp5(p): 
     """Exp : Exp '/'"""
-    p[0] = p[1]+'div\n'
+    p[0] = p[1]+'\tdiv\n'
 
 def p_Exp6(p): 
     """Exp : Exp MOD"""
-    p[0] = p[1]+'mod\n'
+    p[0] = p[1]+'\tmod\n'
 
 def p_Exp7(p): 
     """Exp : Exp GREATEREQUAL"""
-    p[0] = p[1]+'supeq\n'
+    p[0] = p[1]+'\tsupeq\n'
 
 def p_Exp8(p): 
     """Exp : Exp GREATER"""
-    p[0] = p[1]+'sup\n'
+    p[0] = p[1]+'\tsup\n'
 
 def p_Exp9(p): 
     """Exp : Exp LESSEQUAL"""
-    p[0] = p[1]+'infeq\n'
+    p[0] = p[1]+'\tinfeq\n'
 
 def p_Exp10(p): 
     """Exp : Exp LESS"""
-    p[0] = p[1]+'inf\n'
+    p[0] = p[1]+'\tinf\n'
 
 def p_Exp11(p): 
     """Exp : Exp EQUAL"""
-    p[0] = p[1]+'equal\n'
+    p[0] = p[1]+'\tequal\n'
 
 def p_Exp12(p): 
     """Exp : Exp NOTEQUAL"""
-    p[0] = p[1]+'equal\n'+'not\n'
+    p[0] = p[1]+'\tequal\n'+'\tnot\n'
+
+def p_Exp13(p): 
+    """Exp : Exp DUP"""
+    p[0] = p[1]+'\tdup 1\n'
 
 def p_Fatores1(p):
     """Fatores : Fator"""
@@ -216,18 +228,19 @@ def p_Fatores2(p):
 
 def p_Fator(p):
     """Fator : NUM"""
-    p[0] = 'pushi '+p[1]+'\n'
+    p[0] = '\tpushi '+p[1]+'\n'
 
 def p_Fator2(p): 
     """Fator : VAR '@'"""
     if p[1] in parser.tabVAR.keys():
-        p[0] = 'pushg '+str(parser.tabVAR[p[1]])+'\n'
+        p[0] = '\tpushg '+str(parser.tabVAR[p[1]])+'\n'
     else:
         print(f"Erro semântico: Variável {p[1]} não declarada.")
         parser.success = False
         p[0]=''
 
 def p_error(p):
+    print(p)
     print("Erro sintático no input!")
     parser.success = False
 
@@ -238,6 +251,7 @@ parser.success = True
 parser.tabVAR = dict() #VarName -> PosStack 
 parser.nextAdr = 0
 parser.tabFunc = dict() #FuncName -> (PosStack,[Content])
+parser.idLabel = 1
 
 # Parse da entrada
 fonte = ""

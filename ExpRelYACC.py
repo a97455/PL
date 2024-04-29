@@ -152,10 +152,11 @@ def p_FuncAtrib2(p):
         p[0] = ''
 
 def p_Ciclo(p):
-    """Ciclo : ':' VAR NUM NUM DO Exp LOOP ';'"""
+    """Ciclo : NUM NUM DO Exp LOOP """
+
     p[0]=''
-    for i in range(int(p[4]),int(p[3])):
-        p[0] += p[6]
+    for i in range(int(p[2]),int(p[1])):
+        p[0] += p[4]
 
 def p_Exp1(p):
     """Exp : Fatores"""

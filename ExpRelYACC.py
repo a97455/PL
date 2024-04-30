@@ -37,6 +37,10 @@ def p_Frase7(p):
     """Frase : Frase Ciclo1"""
     p[0] = p[1]+p[2]
 
+def p_Frase8(p):
+    """Frase : Frase Ciclo2"""
+    p[0] = p[1]+p[2]
+
 def p_Decl(p):
     """Decl : VARIABLE VAR """
     if p[2] in parser.tabVAR.keys():
@@ -196,6 +200,28 @@ def p_Ciclo1(p):
         p[0]+='\tjz ciclo'+str(parser.idCiclo)+'\n'
         parser.idCiclo+=1
 
+def p_Ciclo2(p):
+    """Ciclo2 : Fatores BEGIN Exp UNTIL """
+
+    argumentos = p[1].split('\n')
+    lista_enderecos_codigo=[]
+    for i in range(len(argumentos)-1):
+        lista_enderecos_codigo.append((argumentos[i]+'\n',parser.nextAdr))
+        parser.nextAdr+=1
+
+    p[0]=''
+    for elemento in lista_enderecos_codigo:
+        p[0]+=elemento[i]
+        p[0]+='\tstoreg '+str(elemento[1])+'\n'
+
+    p[0]+='ciclo'+str(parser.idCiclo)+':\n'
+    
+    for elemento in lista_enderecos_codigo:
+        p[0]+='\tpushg '+str(elemento[1])+'\n'
+        p[0]+=p[3]
+        p[0]+='\tjz ciclo'+str(parser.idCiclo)+'\n'
+
+    parser.idCiclo+=1
  
 def p_Exp1(p):
     """Exp : Fatores"""

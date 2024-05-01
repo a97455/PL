@@ -182,8 +182,6 @@ def p_Ciclo1(p):
         p[0]+=argumentos[0]+'\n'
         p[0]+='\tstoreg '+str(posicao_1)+'\n'
         p[0]+=argumentos[1]+'\n'
-        p[0]+='\tpushi 1\n'
-        p[0]+='\tadd\n'
         p[0]+='\tstoreg '+str(posicao_2)+'\n'
 
         p[0]+='ciclo'+str(parser.idCiclo)+':\n'
@@ -196,7 +194,7 @@ def p_Ciclo1(p):
 
         p[0]+='\tpushg '+str(posicao_1)+'\n'
         p[0]+='\tpushg '+str(posicao_2)+'\n'
-        p[0]+='\tinf\n'
+        p[0]+='\tinfeq\n'
         p[0]+='\tjz ciclo'+str(parser.idCiclo)+'\n'
         parser.idCiclo+=1
 

@@ -274,6 +274,10 @@ def p_Exp12(p):
 def p_Exp13(p): 
     """Exp : Exp DUP"""
     p[0] = p[1]+'\tdup 1\n'
+    
+def p_Exp14(p):
+    """Exp : Exp '.'"""
+    p[0]=p[1] + '\twritei\n'
 
 def p_Fatores1(p):
     """Fatores : Fator"""
@@ -286,6 +290,7 @@ def p_Fatores2(p):
 def p_Fator(p):
     """Fator : NUM"""
     p[0] = '\tpushi '+p[1]+'\n'
+    
 
 def p_Fator2(p): 
     """Fator : VAR '@'"""
@@ -295,7 +300,11 @@ def p_Fator2(p):
         print(f"Erro semântico: Variável {p[1]} não declarada.")
         parser.success = False
         p[0]=''
-
+        
+def p_Fator3(p):
+    """Fator : STRING"""
+    p[0]= '\tpushs ' + p[1] + '\n' + '\twrites\n' 
+    
 def p_error(p):
     print(p)
     print("Erro sintático no input!")

@@ -15,10 +15,11 @@ tokens = (
     'DO',
     'LOOP',
     'BEGIN',
-    'UNTIL'
+    'UNTIL',
+    'STRING'
 )
 
-literals= ['/','*','+','-','!','@',':',';']
+literals= ['/','*','+','-','!','@',':',';','.']
 
 def t_NUM(t):
     r'\d+'
@@ -78,6 +79,11 @@ def t_VARIABLE(t):
 
 def t_VAR(t):
     r'[a-zA-Z]\w*'
+    return t
+
+def t_STRING(t):
+    r'\.".*?"'
+    t.value = t.value[1:] 
     return t
 
 t_ignore = ' \t\n' #ignora espaços, tabs e paragrafos

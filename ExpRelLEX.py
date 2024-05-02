@@ -16,7 +16,12 @@ tokens = (
     'LOOP',
     'BEGIN',
     'UNTIL',
-    'STRING'
+    'STRING',
+    'EMIT',
+    'CHAR',
+    'IF',
+    'ELSE',
+    'THEN'
 )
 
 literals= ['/','*','+','-','!','@',':',';','.','i']
@@ -75,6 +80,26 @@ def t_EQUAL(t):
 
 def t_VARIABLE(t):
     r'(?i)\bvariable\b'
+    return t
+
+def t_EMIT(t):
+    r'(?i)\bemit\b'
+    return t
+
+def t_CHAR(t):
+    r'(?i)\bchar\b'
+    return t
+
+def t_IF(t):
+    r'(?i)\bif\b'
+    return t
+
+def t_ELSE(t):
+    r'(?i)\belse\b'
+    return t
+
+def t_THEN(t):
+    r'(?i)\bthen\b'
     return t
 
 def t_VAR(t):

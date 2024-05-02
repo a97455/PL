@@ -315,6 +315,20 @@ def p_Exp13(p):
 def p_Exp14(p):
     """Exp : Exp '.'"""
     p[0]=p[1] + '\twritei\n'
+    
+def p_Exp15(p):
+    """Exp : Exp EMIT"""
+    p[0]= p[1] + '\twritechr\n'
+    
+def p_Exp16(p):
+    """Exp : IF Exp THEN"""
+    p[0] = f"\tjz endif{parser.cont}\n" + p[2] + f"endif{parser.cont}:\n"
+    parser.cont +=1
+
+def p_Exp17(p):
+    """Exp : IF Exp ELSE Exp THEN"""
+    p[0] = f"\tjz else{parser.cont}\n" + p[2] + f"\tjump endif{parser.cont}\n" + f"else{parser.cont}:\n" + p[4] + f"endif{parser.cont}:\n"
+    parser.cont +=1
 
 def p_Fatores1(p):
     """Fatores : Fator"""
@@ -355,6 +369,7 @@ parser.tabVAR = dict() #VarName -> PosStack
 parser.nextAdr = 0
 parser.tabFunc = dict() #FuncName -> (PosStack,[Content])
 parser.idCiclo = 1
+parser.cont = 1
 
 # Parse da entrada
 fonte = ""

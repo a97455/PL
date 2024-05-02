@@ -182,7 +182,7 @@ def p_FuncPrint1(p):
 
 def p_FuncPrint2(p):
     """FuncPrint : '.'"""
-    p[0] = '\tdup 1\n \twritei\n'
+    p[0] = '\twritei\n'
 
 def p_Ciclo1(p):
     """Ciclo1 : Fatores DO corpoCiclo LOOP """

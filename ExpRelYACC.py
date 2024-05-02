@@ -79,8 +79,7 @@ def p_FuncDecl(p):
         print(f"Erro semântico: Função {p[2]} já declarada.")
         parser.success = False
     else:
-        parser.tabFunc[p[2]] = (parser.nextAdr,p[3])
-        parser.nextAdr+=1
+        parser.tabFunc[p[2]] = p[3]
         p[0] = ''
 
 def p_FuncCont1(p):
@@ -141,16 +140,15 @@ def p_FuncCont14(p):
     
 def p_FuncCont15(p):
     """FuncCont : FuncCont '.'"""
-    p[0]=p[1] + ['\tdup 1\n \twritei\n']
+    p[0]=p[1] + ['\twritei\n']
 
 def p_FuncAtrib1(p):
     """FuncAtrib : Fatores VAR FuncPrint"""
     if p[2] in parser.tabFunc.keys():
         p[0]=p[1]
-        for cont in parser.tabFunc[p[2]][1]:
+        for cont in parser.tabFunc[p[2]]:
             p[0]+=cont
         p[0]+=p[3]
-        p[0]+='\tstoreg '+str(parser.tabFunc[p[2]][0])+'\n'
     else:
         print(f"Erro semântico: Função {p[2]} não declarada.")
         parser.success = False
@@ -160,9 +158,8 @@ def p_FuncAtrib2(p):
     """FuncAtrib : Exp VAR FuncPrint"""
     if p[2] in parser.tabFunc.keys():
         p[0]=p[1]
-        for cont in parser.tabFunc[p[2]][1]:
+        for cont in parser.tabFunc[p[2]]:
             p[0]+=cont
-        p[0]+='\tstoreg '+str(parser.tabFunc[p[2]][0])+'\n'
     else:
         print(f"Erro semântico: Função {p[2]} não declarada.")
         parser.success = False
@@ -172,9 +169,8 @@ def p_FuncAtrib3(p):
     """FuncAtrib : VAR FuncPrint"""
     if p[1] in parser.tabFunc.keys():
         p[0]=''
-        for cont in parser.tabFunc[p[1]][1]:
+        for cont in parser.tabFunc[p[1]]:
             p[0]+=cont
-        p[0]+='\tstoreg '+str(parser.tabFunc[p[1]][0])+'\n'
     else:
         print(f"Erro semântico: Função {p[1]} não declarada.")
         parser.success = False
@@ -362,7 +358,7 @@ parser = yacc.yacc()
 parser.success = True
 parser.tabVAR = dict() #VarName -> PosStack 
 parser.nextAdr = 0
-parser.tabFunc = dict() #FuncName -> (PosStack,[Content])
+parser.tabFunc = dict() #FuncName -> [Content]
 parser.idCiclo = 1
 
 # Parse da entrada

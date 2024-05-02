@@ -26,27 +26,27 @@ def t_NUM(t):
     return t
 
 def t_DO(t):
-    r'(?i)do'
+    r'(?i)\bdo\b'
     return t
 
 def t_LOOP(t):
-    r'(?i)loop'
+    r'(?i)\bloop\b'
     return t
 
 def t_BEGIN(t):
-    r'(?i)begin'
+    r'(?i)\bbegin\b'
     return t
 
 def t_UNTIL(t):
-    r'(?i)until'
+    r'(?i)\buntil\b'
     return t
 
 def t_MOD(t):
-    r'(?i)mod'
+    r'(?i)\bmod\b'
     return t
 
 def t_DUP(t):
-    r'(?i)dup'
+    r'(?i)\bdup\b'
     return t
 
 def t_NOTEQUAL(t):
@@ -74,7 +74,7 @@ def t_EQUAL(t):
     return t
 
 def t_VARIABLE(t):
-    r'(?i)variable'
+    r'(?i)\bvariable\b'
     return t
 
 def t_VAR(t):

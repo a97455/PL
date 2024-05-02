@@ -9,6 +9,10 @@ def p_Prog(p):
     p[0] += p[1]
     p[0] += 'stop\n'
 
+def p_Frase0(p):
+    """Frase : Frase Exp '.'"""
+    p[0] = p[1]+p[2]+'\twritei\n'
+
 def p_Frase1(p):
     """Frase : """
     p[0] = ''
@@ -311,10 +315,6 @@ def p_Exp12(p):
 def p_Exp13(p): 
     """Exp : Exp DUP"""
     p[0] = p[1]+'\tdup 1\n'
-    
-def p_Exp14(p):
-    """Exp : Exp '.'"""
-    p[0]=p[1] + '\twritei\n'
 
 def p_Fatores1(p):
     """Fatores : Fator"""

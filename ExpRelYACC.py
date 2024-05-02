@@ -131,6 +131,14 @@ def p_FuncCont13(p):
     """FuncCont : FuncCont NOTEQUAL"""
     p[0] = p[1] + ['\tequal\n'+'\tnot\n']
 
+def p_FuncCont14(p): 
+    """FuncCont : FuncCont DUP"""
+    p[0] = p[1]+['\tdup 1\n']
+    
+def p_FuncCont15(p):
+    """FuncCont : FuncCont '.'"""
+    p[0]=p[1] + ['\twritei\n']
+
 def p_FuncAtrib1(p):
     """FuncAtrib : Fatores VAR"""
     if p[2] in parser.tabFunc.keys():
@@ -168,7 +176,7 @@ def p_FuncAtrib3(p):
         p[0] = ''
 
 def p_Ciclo1(p):
-    """Ciclo1 : Fatores DO Exp LOOP """
+    """Ciclo1 : Fatores DO corpoCiclo LOOP """
 
     if(p[1].count('\n')==2):
         argumentos = p[1].split('\n')
@@ -185,7 +193,13 @@ def p_Ciclo1(p):
         p[0]+='\tstoreg '+str(posicao_2)+'\n'
 
         p[0]+='ciclo'+str(parser.idCiclo)+':\n'
-        p[0]+=p[3]
+
+        elementos_ciclo = p[3].split('\n')
+        for i in range(len(elementos_ciclo)-1):
+            if elementos_ciclo[i]=='i':
+                p[0]+='\tpushg '+str(posicao_2)+'\n'
+            else:
+                p[0]+=elementos_ciclo[i]+'\n'
 
         p[0]+='\tpushg '+str(posicao_2)+'\n'
         p[0]+='\tpushi 1\n'
@@ -199,7 +213,7 @@ def p_Ciclo1(p):
         parser.idCiclo+=1
 
 def p_Ciclo2(p):
-    """Ciclo2 : Fatores BEGIN Exp UNTIL """
+    """Ciclo2 : Fatores BEGIN FuncCont UNTIL """
 
     argumentos = p[1].split('\n')
     lista_enderecos_codigo=[]
@@ -209,17 +223,31 @@ def p_Ciclo2(p):
 
     p[0]=''
     for elemento in lista_enderecos_codigo:
-        p[0]+=elemento[i]
+        p[0]+=elemento[0]
         p[0]+='\tstoreg '+str(elemento[1])+'\n'
 
-    p[0]+='ciclo'+str(parser.idCiclo)+':\n'
-    
     for elemento in lista_enderecos_codigo:
         p[0]+='\tpushg '+str(elemento[1])+'\n'
-        p[0]+=p[3]
-        p[0]+='\tjz ciclo'+str(parser.idCiclo)+'\n'
+
+    p[0]+='ciclo'+str(parser.idCiclo)+':\n'
+
+    for elem in p[3]:
+        p[0]+=elem
+    p[0]+='\tjz ciclo'+str(parser.idCiclo)+'\n'
 
     parser.idCiclo+=1
+
+def p_corpoCiclo1(p):
+    """corpoCiclo : corpoCiclo 'i'"""
+    p[0]= p[1] + 'i\n'
+
+def p_corpoCiclo2(p):
+    """corpoCiclo : corpoCiclo Exp"""
+    p[0] = p[1] + p[2] 
+
+def p_corpoCiclo3(p):
+    """corpoCiclo : """
+    p[0] = ''
  
 def p_Exp1(p):
     """Exp : Fatores"""

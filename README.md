@@ -6,7 +6,7 @@ Em Forth existem diferentes tipos de ciclos. Uma das estruturações possiveis p
 ~~~
 10 1 do 
     i . 
-loop ;
+loop 
 ~~~
 ~~~
 variable a 

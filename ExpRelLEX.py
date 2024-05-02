@@ -78,7 +78,7 @@ def t_VARIABLE(t):
     return t
 
 def t_VAR(t):
-    r'[a-zA-Z]\w*'
+    r'[a-hj-zA-HJ-Z]\w*'
     return t
 
 def t_STRING(t):

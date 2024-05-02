@@ -194,12 +194,11 @@ def p_Ciclo1(p):
 
         p[0]+='ciclo'+str(parser.idCiclo)+':\n'
 
-        elementos_ciclo = p[3].split('\n')
-        for i in range(len(elementos_ciclo)-1):
-            if elementos_ciclo[i]=='i':
+        for elem in p[3]:
+            if elem=='i\n':
                 p[0]+='\tpushg '+str(posicao_2)+'\n'
             else:
-                p[0]+=elementos_ciclo[i]+'\n'
+                p[0]+=elem
 
         p[0]+='\tpushg '+str(posicao_2)+'\n'
         p[0]+='\tpushi 1\n'
@@ -238,16 +237,16 @@ def p_Ciclo2(p):
     parser.idCiclo+=1
 
 def p_corpoCiclo1(p):
-    """corpoCiclo : corpoCiclo 'i'"""
-    p[0]= p[1] + 'i\n'
+    """corpoCiclo : corpoCiclo 'i' """
+    p[0]= p[1] + ['i\n']
 
 def p_corpoCiclo2(p):
-    """corpoCiclo : corpoCiclo Exp"""
+    """corpoCiclo : corpoCiclo FuncCont"""
     p[0] = p[1] + p[2] 
 
 def p_corpoCiclo3(p):
     """corpoCiclo : """
-    p[0] = ''
+    p[0] = []
  
 def p_Exp1(p):
     """Exp : Fatores"""

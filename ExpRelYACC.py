@@ -141,14 +141,15 @@ def p_FuncCont14(p):
     
 def p_FuncCont15(p):
     """FuncCont : FuncCont '.'"""
-    p[0]=p[1] + ['\twritei\n']
+    p[0]=p[1] + ['\tdup 1\n \twritei\n']
 
 def p_FuncAtrib1(p):
-    """FuncAtrib : Fatores VAR"""
+    """FuncAtrib : Fatores VAR FuncPrint"""
     if p[2] in parser.tabFunc.keys():
         p[0]=p[1]
         for cont in parser.tabFunc[p[2]][1]:
             p[0]+=cont
+        p[0]+=p[3]
         p[0]+='\tstoreg '+str(parser.tabFunc[p[2]][0])+'\n'
     else:
         print(f"Erro semântico: Função {p[2]} não declarada.")
@@ -156,7 +157,7 @@ def p_FuncAtrib1(p):
         p[0] = ''
 
 def p_FuncAtrib2(p):
-    """FuncAtrib : Exp VAR"""
+    """FuncAtrib : Exp VAR FuncPrint"""
     if p[2] in parser.tabFunc.keys():
         p[0]=p[1]
         for cont in parser.tabFunc[p[2]][1]:
@@ -168,7 +169,7 @@ def p_FuncAtrib2(p):
         p[0] = ''
 
 def p_FuncAtrib3(p):
-    """FuncAtrib : VAR"""
+    """FuncAtrib : VAR FuncPrint"""
     if p[1] in parser.tabFunc.keys():
         p[0]=''
         for cont in parser.tabFunc[p[1]][1]:
@@ -178,6 +179,14 @@ def p_FuncAtrib3(p):
         print(f"Erro semântico: Função {p[1]} não declarada.")
         parser.success = False
         p[0] = ''
+
+def p_FuncPrint1(p):
+    """FuncPrint : """
+    p[0] = ''
+
+def p_FuncPrint2(p):
+    """FuncPrint : '.'"""
+    p[0] = '\tdup 1\n \twritei\n'
 
 def p_Ciclo1(p):
     """Ciclo1 : Fatores DO corpoCiclo LOOP """

@@ -236,6 +236,18 @@ def p_Ciclo2(p):
 
     parser.idCiclo+=1
 
+def p_Ciclo3(p):
+    """Ciclo2 : BEGIN FuncCont UNTIL """
+    p[0]=''
+    p[0]+='ciclo'+str(parser.idCiclo)+':\n'
+
+    for elem in p[2]:
+        p[0]+=elem
+    p[0]+='\tjz ciclo'+str(parser.idCiclo)+'\n'
+
+    parser.idCiclo+=1
+
+
 def p_corpoCiclo1(p):
     """corpoCiclo : corpoCiclo 'i' """
     p[0]= p[1] + ['i\n']

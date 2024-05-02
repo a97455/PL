@@ -9,43 +9,43 @@ def p_Prog(p):
     p[0] += p[1]
     p[0] += 'stop\n'
 
-def p_Frase(p):
-    """Frase : Frase STRING"""
-    p[0]= p[1]+'\tpushs ' + p[2] + '\n' + '\twrites\n' 
-
-def p_Frase0(p):
-    """Frase : Frase Exp '.'"""
-    p[0] = p[1]+p[2]+'\twritei\n'
-
 def p_Frase1(p):
     """Frase : """
     p[0] = ''
 
 def p_Frase2(p):
+    """Frase : Frase STRING"""
+    p[0]= p[1]+'\tpushs ' + p[2] + '\n' + '\twrites\n' 
+
+def p_Frase3(p):
     """Frase : Frase Exp"""
     p[0] = p[1]+p[2]
 
-def p_Frase3(p):
+def p_Frase4(p):
+    """Frase : Frase Exp '.'"""
+    p[0] = p[1]+p[2]+'\twritei\n'
+
+def p_Frase5(p):
     """Frase : Frase Decl"""
     p[0] = p[1]+p[2]
 
-def p_Frase4(p):
+def p_Frase6(p):
     """Frase : Frase Atrib"""
     p[0] = p[1]+p[2]
 
-def p_Frase5(p):
+def p_Frase7(p):
     """Frase : Frase FuncDecl"""
     p[0] = p[1]+p[2]
 
-def p_Frase6(p):
+def p_Frase8(p):
     """Frase : Frase FuncAtrib"""
     p[0] = p[1]+p[2]
 
-def p_Frase7(p):
+def p_Frase9(p):
     """Frase : Frase Ciclo1"""
     p[0] = p[1]+p[2]
 
-def p_Frase8(p):
+def p_Frase10(p):
     """Frase : Frase Ciclo2"""
     p[0] = p[1]+p[2]
 
@@ -264,7 +264,6 @@ def p_Ciclo3(p):
 
     parser.idCiclo+=1
 
-
 def p_corpoCiclo1(p):
     """corpoCiclo : corpoCiclo 'i' """
     p[0]= p[1] + ['i\n']
@@ -329,16 +328,16 @@ def p_Exp13(p):
     """Exp : Exp DUP"""
     p[0] = p[1]+'\tdup 1\n'
 
-def p_Exp15(p):
+def p_Exp14(p):
     """Exp : Exp EMIT"""
     p[0]= p[1] + '\twritechr\n'
 
-def p_Exp16(p):
+def p_Exp15(p):
     """Exp : IF Exp THEN"""
     p[0] = f"\tjz endif{parser.cont}\n" + p[2] + f"endif{parser.cont}:\n"
     parser.cont +=1
 
-def p_Exp17(p):
+def p_Exp16(p):
     """Exp : IF Exp ELSE Exp THEN"""
     p[0] = f"\tjz else{parser.cont}\n" + p[2] + f"\tjump endif{parser.cont}\n" + f"else{parser.cont}:\n" + p[4] + f"endif{parser.cont}:\n"
     parser.cont +=1
@@ -351,7 +350,7 @@ def p_Fatores2(p):
     """Fatores : Fatores Fator"""
     p[0]=p[1]+p[2]
 
-def p_Fator(p):
+def p_Fator1(p):
     """Fator : NUM"""
     p[0] = '\tpushi '+p[1]+'\n'
 

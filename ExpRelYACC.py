@@ -9,6 +9,10 @@ def p_Prog(p):
     p[0] += p[1]
     p[0] += 'stop\n'
 
+def p_Frase(p):
+    """Frase : Frase STRING"""
+    p[0]= p[1]+'\tpushs ' + p[2] + '\n' + '\twrites\n' 
+
 def p_Frase0(p):
     """Frase : Frase Exp '.'"""
     p[0] = p[1]+p[2]+'\twritei\n'
@@ -141,6 +145,10 @@ def p_FuncCont14(p):
 def p_FuncCont15(p):
     """FuncCont : FuncCont '.'"""
     p[0]=p[1] + ['\twritei\n']
+
+def p_FuncCont16(p):
+    """FuncCont : FuncCont STRING"""
+    p[0]=p[1] + ['\tpushs ' + p[2] + '\n' + '\twrites\n']
 
 def p_FuncAtrib1(p):
     """FuncAtrib : Fatores VAR FuncPrint"""
@@ -332,7 +340,6 @@ def p_Fatores2(p):
 def p_Fator(p):
     """Fator : NUM"""
     p[0] = '\tpushi '+p[1]+'\n'
-    
 
 def p_Fator2(p): 
     """Fator : VAR '@'"""
@@ -342,10 +349,6 @@ def p_Fator2(p):
         print(f"Erro semântico: Variável {p[1]} não declarada.")
         parser.success = False
         p[0]=''
-        
-def p_Fator3(p):
-    """Fator : STRING"""
-    p[0]= '\tpushs ' + p[1] + '\n' + '\twrites\n' 
     
 def p_error(p):
     print(p)

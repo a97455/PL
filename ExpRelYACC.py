@@ -1,5 +1,4 @@
 import ply.yacc as yacc
-import sys
 from ExpRelLEX import tokens
 
 def p_Prog(p):
@@ -432,11 +431,12 @@ parser.cont = 1
 
 # Parse da entrada
 fonte = ""
-for linha in sys.stdin:
-    fonte += linha
+with open("Input.txt",'r') as f:
+    fonte = f.read()
 
 result = parser.parse(fonte)
 
 # Verifica se o parse foi bem-sucedido e imprime o resultado formatado
 if parser.success:
-    print('\n'+result)
+    with open("Output.txt",'w') as f:
+        f.write(result)

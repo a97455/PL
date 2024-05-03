@@ -46,6 +46,8 @@ No caso do segundo ciclo, começa por identificar se recebe argumentos. Em caso 
 As labels dos ciclos tem um nome estruturado, sendo ele _ciclo<\num>_ em que <\num> é o número de ciclo, variável do parser que é incrementada quando um ciclo é criado. 
 
 # Comentários
-Para criar os comentários, o analisador léxico teve de ser adaptado para reconhecer mais um token, o _COMMENT_. Esse token reconhece todo o conteúdo presente dentro de parêntese.  
+No Forth, para realizar comentários, basta colocar o bloco que se deseja que seja comentado dentro de parênteses curvos. 
+
+Para identificar os comentários, o analisador léxico teve de ser adaptado para reconhecer mais um token, o _COMMENT_. Esse token reconhece todo o conteúdo presente dentro de parêntese.  
 
 O analisador sintático, em qualquer parte do código, seja numa linha apenas formada por um comentário, dentro de ciclos ou funções, se detetar um comentário, limita-se a não escrever nenhum código para a VM. 

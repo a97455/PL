@@ -39,8 +39,8 @@ c @ 10 do c @ . ." / " loop
 variable d
 20 d !
 
-." ; Verifica se d é positivo: "
-d @ 0 >= if ." Positivo" then
+." ; Calcula o triplo se o número for positivo: "
+d @ 0 >= if d @ 3 * . then
 
 ." ; Variável d é: "
 d @ 2 mod 0 = if ." Par" else ." Impar" then

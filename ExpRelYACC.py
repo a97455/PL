@@ -61,6 +61,10 @@ def p_Frase13(p):
     """Frase : Frase CHAR VAR '.'"""
     p[0] = p[1]+f'\tpushs "{p[3]}"\n'+'\tchrcode\n'+'\twritei\n'
 
+def p_Frase14(p):
+    """Frase : COMMENT """
+    p[0] = ''
+
 def p_Decl(p):
     """Decl : VARIABLE VAR """
     if p[2] in parser.tabVAR.keys():
@@ -177,6 +181,10 @@ def p_FuncCont19(p):
 def p_FuncCont20(p):
     """FuncCont : FuncCont Ciclo2"""
     p[0]=p[1] + [p[2]]
+
+def p_FuncCont21(p):
+    """FuncCont : FuncCont COMMENT"""
+    p[0]=p[1]
 
 def p_FuncAtrib1(p):
     """FuncAtrib : Fatores VAR FuncPrint"""
@@ -381,6 +389,10 @@ def p_Exp13(p):
 def p_Exp14(p):
     """Exp : Exp EMIT"""
     p[0]= p[1] + '\twritechr\n'
+
+def p_Exp15(p):
+    """Exp : Exp COMMENT"""
+    p[0]= p[1]
 
 def p_Fatores1(p):
     """Fatores : Fator"""

@@ -21,7 +21,8 @@ tokens = (
     'CHAR',
     'IF',
     'ELSE',
-    'THEN'
+    'THEN',
+    'COMMENT'
 )
 
 literals= ['/','*','+','-','!','@',':',';','.','i']
@@ -76,6 +77,10 @@ def t_LESS(t):
 
 def t_EQUAL(t):
     r'='
+    return t
+
+def t_COMMENT(t):
+    r'\(.*?\)'
     return t
 
 def t_VARIABLE(t):

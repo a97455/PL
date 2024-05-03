@@ -99,7 +99,7 @@ def p_FuncCont1(p):
     p[0] = list()
 
 def p_FuncCont2(p):
-    """FuncCont : FuncCont Fator"""
+    """FuncCont : FuncCont Fatores"""
     p[0] = p[1] + [p[2]]
 
 def p_FuncCont3(p):
@@ -157,6 +157,22 @@ def p_FuncCont15(p):
 def p_FuncCont16(p):
     """FuncCont : FuncCont STRING"""
     p[0]=p[1] + ['\tpushs ' + p[2] + '\n' + '\twrites\n']
+
+def p_FuncCont17(p):
+    """FuncCont : FuncCont Condicional1"""
+    p[0]=p[1] + [p[2]]
+
+def p_FuncCont18(p):
+    """FuncCont : FuncCont Condicional2"""
+    p[0]=p[1] + [p[2]]
+
+def p_FuncCont19(p):
+    """FuncCont : FuncCont Ciclo1"""
+    p[0]=p[1] + [p[2]]
+
+def p_FuncCont20(p):
+    """FuncCont : FuncCont Ciclo2"""
+    p[0]=p[1] + [p[2]]
 
 def p_FuncAtrib1(p):
     """FuncAtrib : Fatores VAR FuncPrint"""

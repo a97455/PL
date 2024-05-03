@@ -1,5 +1,4 @@
 import ply.yacc as yacc
-import sys
 from ExpRelLEX import tokens
 
 def p_Prog(p):

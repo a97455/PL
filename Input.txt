@@ -1,6 +1,8 @@
 ." Exp1: "
 15 10 * 20 + 200 <= .
 
+(Comentario)
+
 ." ; Imprime o char de valor ASCII 65: "
 65 emit 
 
@@ -52,7 +54,7 @@ d @ 0 >= if d @ 3 * . then
 d @ 2 mod 0 = if ." Par" else ." Impar" then
 
 ." ; Função com condicional: "
-: bigger100 100 >= if ." Verdadeiro" else ." Falso" then ;
+: bigger100 100 >= if (Comentario) ." Verdadeiro" else ." Falso" then ;
 50 bigger100 
 
 ." ; Função com ciclo: "

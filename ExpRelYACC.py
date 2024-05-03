@@ -61,8 +61,8 @@ def p_Frase13(p):
     p[0] = p[1]+f'\tpushs "{p[3]}"\n'+'\tchrcode\n'+'\twritei\n'
 
 def p_Frase14(p):
-    """Frase : COMMENT """
-    p[0] = ''
+    """Frase : Frase COMMENT """
+    p[0] = p[1]
 
 def p_Decl(p):
     """Decl : VARIABLE VAR """

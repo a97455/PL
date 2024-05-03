@@ -25,12 +25,15 @@ until
 ~~~
 Relativamente ao analisador sintático, isto obrigou-nos à criação de mais 4 tokens (_DO_, _LOOP_, _BEGIN_ e _UNTIL_) para que os ciclos possam ser. 
 
-Para os implementar no analisador léxico, foram criada mais duas frases (_p\_Frase7_ e _p\_Frase8_), seguindo a seguinte estrutura: 
+Para os implementar no analisador léxico, foram criada mais três frases (_p\_Frase7_ e _p\_Frase8_,_p\_Frase9_), seguindo a seguinte estrutura: 
 ~~~
 """Frase : Frase Ciclo1"""
 ~~~
 ~~~
-    """Frase : Frase Ciclo2"""
+"""Frase : Frase Ciclo2"""
+~~~
+~~~
+"""Frase : Frase Ciclo3"""
 ~~~
 No caso do primeiro ciclo, par implementar o analisador sintático, primeiro recolhem-se os limites do ciclo. Para as armazenar, reservam-se 2 espaços de memória na stack global da VM. Após isso, é criada uma label para o ciclo. É introduzido o corpo do ciclo nessa label. No ciclo é ainda incrementada a variável que verifica os limites do ciclo e é verificada se a condição de fim de ciclo se verifica. Se se verificar, então o ciclo é terminado. Caso contrário, ocorre um salto para a label anteriormente criada. Neste caso, é ainda implementado _i_. Para o fazer, tivemos de perceber se as operações contidas no ciclo eram 'i' ou diferentes de 'i'. Se fossem diferentes, escrevia-se para a VM o próprio código da instrução. Caso contrário, íamos ver o valor do limite inferior do ciclo e escrevia-se na VM esse valor. 
 

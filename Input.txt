@@ -1,6 +1,9 @@
 ." Exp1: "
 15 10 * 20 + 200 <= .
 
+." ; Imprime o char de valor ASCII 65: "
+65 emit 
+
 variable a
 variable b
 

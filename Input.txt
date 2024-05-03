@@ -34,3 +34,13 @@ c @ 10 do c @ . ." / " loop
 
 ." ; Loop usando Begin e Until: "
 1 begin dup . ." / " 1 + dup 5 > until 
+
+
+variable d
+20 d !
+
+." ; Verifica se d é positivo: "
+d @ 0 >= if ." Positivo" then
+
+." ; Variável d é: "
+d @ 2 mod 0 = if ." Par" else ." Impar" then

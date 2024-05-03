@@ -49,6 +49,14 @@ def p_Frase10(p):
     """Frase : Frase Ciclo2"""
     p[0] = p[1]+p[2]
 
+def p_Frase11(p):
+    """Frase : Frase Condicional1"""
+    p[0] = p[1]+p[2]
+
+def p_Frase12(p):
+    """Frase : Frase Condicional2"""
+    p[0] = p[1]+p[2]
+
 def p_Decl(p):
     """Decl : VARIABLE VAR """
     if p[2] in parser.tabVAR.keys():
@@ -275,7 +283,29 @@ def p_corpoCiclo2(p):
 def p_corpoCiclo3(p):
     """corpoCiclo : """
     p[0] = []
- 
+
+def p_Condicional1(p):
+    """Condicional1 : IF FuncCont THEN"""
+    p[0] = f"\tjz endif{parser.cont}\n" 
+    for cont in p[2]:
+        p[0]+=cont 
+        
+    p[0]+=f"endif{parser.cont}:\n"
+    parser.cont +=1
+
+def p_Condicional2(p):
+    """Condicional2 : IF FuncCont ELSE FuncCont THEN"""
+    p[0] = f"\tjz else{parser.cont}\n"
+    for cont in p[2]:
+        p[0]+=cont
+
+    p[0]+=f"\tjump endif{parser.cont}\n" + f"else{parser.cont}:\n" 
+    for cont in p[4]:
+        p[0]+=cont
+        
+    p[0]+=f"endif{parser.cont}:\n"
+    parser.cont +=1
+
 def p_Exp1(p):
     """Exp : Fatores"""
     p[0] = p[1]
@@ -331,16 +361,6 @@ def p_Exp13(p):
 def p_Exp14(p):
     """Exp : Exp EMIT"""
     p[0]= p[1] + '\twritechr\n'
-
-def p_Exp15(p):
-    """Exp : IF Exp THEN"""
-    p[0] = f"\tjz endif{parser.cont}\n" + p[2] + f"endif{parser.cont}:\n"
-    parser.cont +=1
-
-def p_Exp16(p):
-    """Exp : IF Exp ELSE Exp THEN"""
-    p[0] = f"\tjz else{parser.cont}\n" + p[2] + f"\tjump endif{parser.cont}\n" + f"else{parser.cont}:\n" + p[4] + f"endif{parser.cont}:\n"
-    parser.cont +=1
 
 def p_Fatores1(p):
     """Fatores : Fator"""

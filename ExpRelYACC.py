@@ -57,6 +57,10 @@ def p_Frase12(p):
     """Frase : Frase Condicional2"""
     p[0] = p[1]+p[2]
 
+def p_Frase13(p):
+    """Frase : Frase CHAR VAR '.'"""
+    p[0] = p[1]+f'\tpushs "{p[3]}"\n'+'\tchrcode\n'+'\twritei\n'
+
 def p_Decl(p):
     """Decl : VARIABLE VAR """
     if p[2] in parser.tabVAR.keys():

@@ -4,6 +4,9 @@
 ." ; Imprime o char de valor ASCII 65: "
 65 emit 
 
+." ; Imprime o valor ASCII de B: "
+char B .
+
 variable a
 variable b
 

@@ -1,5 +1,5 @@
 import ply.yacc as yacc
-from ExpRelLEX import tokens
+from ForthLEX import tokens
 
 def p_Prog(p):
     """Prog : Frase"""

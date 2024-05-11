@@ -120,6 +120,115 @@ FuncPrint :
           | '.' 
 ~~~
 
+
+# Print de carateres e strings
+Em relação ao suporte de prints de caracteres e strings, adicionamos três tokens ao analisador léxico sendo elas o 'STRING', 'EMIT', 'CHAR'.
+
+## .
+O token '.' é uma instrução utilizada no Forth para imprimir o valor no topo da pilha de dados. Sempre que é necessário imprimir o resultado de uma operação aritmética ou o valor de uma variável, é comum acrescentar um ponto '.' no final da linha para indicar que o valor deve ser impresso.
+
+Por exemplo:
+~~~
+1 2 + .
+~~~
+Isso resultaria  na impressão do valor 3.
+
+Para isso foi criado a seguinte produção:
+~~~
+Frase : Frase Exp '.'
+      | Frase CHAR VAR '.'
+
+FuncCont : FuncCont '.'
+
+FuncPrint : '.'
+~~~
+
+## ." string"
+A construção `." string"` é usada para imprimir uma string no Forth.
+
+Por exemplo:
+~~~
+." Hello, world!"
+~~~
+Isso resultaria na impressão da mensagem "Hello, world!".
+
+Para isso foi criado os seguintes processos:
+
+~~~
+Frase : Frase STRING
+
+FuncCont : FuncCont STRING
+~~~
+
+## emit
+O token `EMIT` é usado para imprimir um único caractere no Forth.
+
+~~~
+65 Emit
+~~~
+Isso resultaria na impressão do caractere 'A'.
+
+Para isso foi criado o seguinte processo:
+
+~~~
+Exp : Exp EMIT
+~~~
+
+## char
+O token `CHAR` é usado para representar caracteres no Forth em seu valor ASCII.
+
+Por exemplo:
+
+~~~
+A CHAR .
+~~~
+Isso resultaria na impressão do valor ASCII do caractere 'A', que é 65.
+
+Para isso foi criado o seguinte processo:
+
+~~~
+Frase : Frase CHAR VAR '.'
+~~~
+
+# Condicionais
+
+No Forth, as condicionais são implementadas principalmente usando as palavras-chave IF, ELSE e THEN.
+
+~~~
+10 20 > IF
+    ." 10 é maior que 20" 
+THEN
+~~~
+
+~~~
+10 20 > IF
+    ." 10 é maior que 20" 
+ELSE
+    ." 10 não é maior que 20" 
+THEN
+~~~
+
+Para implementar as condicionais, foram criados os tokens 'IF', 'THEN' e 'ELSE'. O processo de implementação envolve o uso de dois padrões sintáticos distintos para lidar com as estruturas condicionais.
+
+~~~
+Condicional1 : IF FuncCont THEN
+
+Condicional2 : IF FuncCont ELSE FuncCont THEN
+~~~
+
+Na produção Condicional1 é lida com o caso simples de uma estrutura IF ... THEN. Ela verifica se a condição é verdadeira e executa o código no bloco IF se for.
+      
+
+Na produção Condicional2 tanto o bloco IF quanto o bloco ELSE são considerados. Se a condição no bloco IF for verdadeira, o código no bloco IF é executado; caso contrário, o código no bloco ELSE é executado.
+
+Em ambas as produções as variável parser.cont é utilizada para criar labels únicas para cada condicional. 
+
+No caso do bloco IF simples, a label endif{parser.cont} é utilizada para marcar o fim do bloco IF. 
+
+Já no caso do bloco IF/ELSE, são utilizadas duas labels: else{parser.cont} para marcar o início do bloco ELSE e endif{parser.cont} para marcar o fim do bloco IF/ELSE. 
+
+Essas labels garantem o controlo do fluxo de execução do código nas condicionais.
+ 
 # Ciclos 
 Em Forth existem diferentes tipos de ciclos. Uma das estruturações possíveis para os ciclos é a seguinte: 
 ~~~
@@ -170,3 +279,9 @@ No Forth, para realizar comentários, basta colocar o bloco que se deseja que se
 Para identificar os comentários, o analisador léxico teve de ser adaptado para reconhecer mais um token, o _COMMENT_. Esse token reconhece todo o conteúdo presente dentro de parêntese.  
 
 O analisador sintático, em qualquer parte do código, seja numa linha apenas formada por um comentário, dentro de ciclos ou funções, se detetar um comentário, limita-se a não escrever nenhum código para a VM. 
+
+# Conclusão
+
+Neste trabalho, desenvolvemos um compilador para a linguagem Forth, que converte código Forth em instruções para uma máquina virtual (VM). Focámo-nos em expandir o analisador sintático para suportar os vários recursos da linguagem, como expressões relacionais, impressão de caracteres e strings, condicionais, ciclos e funções.
+
+No geral, o trabalho proporcionou uma compreensão mais profunda da linguagem Forth e maquina virtual e dos desafios associados ao desenvolvimento de um compilador. A expansão do analisador sintático permitiu suportar uma variedade de recursos adicionais, tornando o compilador mais robusto e funcional. Este trabalho representa um passo importante na nossa jornada como programadores, ajudando a consolidar os conhecimentos sobre expressões regulares, análise léxica e sintática, além de promover uma maior familiaridade com a implementação de linguagens de programação e o desenvolvimento de compiladores.

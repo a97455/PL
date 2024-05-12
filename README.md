@@ -124,7 +124,7 @@ FuncPrint :
 # Print de carateres e strings
 Em relação ao suporte de prints de caracteres e strings, adicionamos três tokens ao analisador léxico sendo elas o 'STRING', 'EMIT', 'CHAR'.
 
-## .
+## Token '.'
 O token '.' é uma instrução utilizada no Forth para imprimir o valor no topo da pilha de dados. Sempre que é necessário imprimir o resultado de uma operação aritmética ou o valor de uma variável, é comum acrescentar um ponto '.' no final da linha para indicar que o valor deve ser impresso.
 
 Por exemplo:
